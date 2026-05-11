@@ -106,7 +106,7 @@ Consulta o plano do dia.
 ### Respostas
 
 - `200 OK`: mesmo formato do POST.
-- `404 Not Found`: `{"detail": "Plano Pomodoro de hoje ainda não definido."}`.
+- `404 Not Found`: `{"detail": "Plano Pomodoro para YYYY-MM-DD ainda não definido."}` (a data corresponde a `dia_referencia`).
 
 ---
 
@@ -200,8 +200,8 @@ Retornados como `{"detail": "<mensagem>"}`:
 | Situação | Mensagem |
 |---|---|
 | Pomodoro sem plano do dia | "Defina primeiro o plano Pomodoro do dia (quantidade de sessões)." |
-| Pomodoro com plano completo | "Plano Pomodoro completo: X/Y blocos registrados. Para registrar mais, apague algum registro na aba Diagnóstico ou aumente o plano do dia." |
-| Segunda sessão única no mesmo dia | "Só é permitida uma Sessão única por dia de referência. Apague o registro existente no diagnóstico ou escolha outro dia." |
+| Pomodoro com plano completo | "Plano Pomodoro completo: X/Y blocos registrados. Para registrar mais, apague um registro ou aumente o plano Pomodoro do dia." |
+| Segunda sessão única no mesmo dia | "Só é permitida uma Sessão única por dia de referência. Apague o registro existente ou escolha outro dia." |
 
 ### Validações de schema (`422 Unprocessable Entity`)
 

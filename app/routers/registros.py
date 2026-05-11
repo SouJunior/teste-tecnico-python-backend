@@ -54,12 +54,11 @@ def status_registro_do_dia(
     plano = database.obter_plano_pomodoro(dia)
     pomodoro_status = None
     if plano:
-        registradas = database.contar_registros_no_dia("pomodoro", dia)
-        total_sessoes = plano["total_sessoes"]
+        info = _resposta_plano(dia, plano["total_sessoes"])
         pomodoro_status = {
-            "total_sessoes": total_sessoes,
-            "sessoes_registradas": registradas,
-            "sessoes_restantes": max(total_sessoes - registradas, 0),
+            "total_sessoes": info["total_sessoes"],
+            "sessoes_registradas": info["sessoes_registradas"],
+            "sessoes_restantes": info["sessoes_restantes"],
         }
     sessao_unica_existe = database.contar_registros_no_dia("sessao_unica", dia) >= 1
     return RegistroDiaStatusResponse(
@@ -113,7 +112,7 @@ def _validar_pode_registrar_pomodoro(dia: str) -> None:
             status_code=400,
             detail=(
                 f"Plano Pomodoro completo: {registradas}/{plano['total_sessoes']} blocos registrados. "
-                "Para registrar mais, apague algum registro na aba Diagnóstico ou aumente o plano do dia."
+                "Para registrar mais, apague um registro ou aumente o plano Pomodoro do dia."
             ),
         )
 
@@ -124,7 +123,7 @@ def _validar_pode_registrar_sessao_unica(dia: str) -> None:
             status_code=400,
             detail=(
                 "Só é permitida uma Sessão única por dia de referência. "
-                "Apague o registro existente no diagnóstico ou escolha outro dia."
+                "Apague o registro existente ou escolha outro dia."
             ),
         )
 

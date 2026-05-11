@@ -14,6 +14,10 @@ _MENSAGEM_VAZIA = "Nenhuma sessão registrada ainda. Comece sua primeira sessão
 
 
 def gerar_diagnostico(mes: Optional[str] = None) -> dict:
+    """
+    Agrega registros do SQLite (`mes` opcional no formato YYYY-MM) em um dicionário
+    pronto para a resposta do endpoint de diagnóstico.
+    """
     registros = database.get_all(mes=mes)
     if not registros:
         return _diagnostico_vazio()
