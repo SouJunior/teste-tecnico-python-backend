@@ -85,7 +85,7 @@ Detalhes e payloads: [`docs/CONTRATO.md`](docs/CONTRATO.md).
 
 ## Arquitetura
 
-```
+```text
 app/
 ├── main.py                    # FastAPI + lifespan (init SQLite)
 ├── routers/

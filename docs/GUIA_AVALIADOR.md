@@ -92,7 +92,7 @@ Use para conferir se **média ponderada do Pomodoro** bate com blocos de exemplo
 
 ## 4. Como cada parte do sistema funciona (visão de arquitetura)
 
-```
+```text
 [Streamlit] --HTTP--> [FastAPI app.main]
                             |
                      [routers/registros.py]
