@@ -23,7 +23,7 @@ def pomodoro_bloco_json(comentario: str = "x", **overrides):
 
 
 def test_status_dia_sem_plano_pomodoro(client):
-    """Sem plano ⇒ pomodoro null; sem sessão única ⇒ flag False."""
+    """Sem plano => pomodoro null; sem sessao unica => flag False."""
     r = client.get("/registro-foco/status-dia", params={"dia_referencia": DIA})
     assert r.status_code == 200
     body = r.json()
@@ -33,7 +33,7 @@ def test_status_dia_sem_plano_pomodoro(client):
 
 
 def test_post_pomodoro_sem_plano_400(client):
-    """Registrar bloco antes de definir plano ⇒ 400 e mensagem fala em plano."""
+    """Registrar bloco antes de definir plano => 400 e mensagem fala em plano."""
     r = client.post(
         "/registro-foco",
         params={"dia_referencia": DIA},
@@ -70,13 +70,13 @@ def test_fluxo_plano_pomodoro_tres_blocos(client):
 
 
 def test_get_plano_404_sem_definir(client):
-    """GET plano para um dia onde nunca foi feito POST do plano ⇒ 404."""
+    """GET plano para um dia onde nunca foi feito POST do plano => 404."""
     r = client.get("/pomodoro/plano", params={"dia_referencia": "2030-02-01"})
     assert r.status_code == 404
 
 
 def test_sessao_unica_segundo_registro_mesmo_dia_400(client):
-    """Duas sessões únicas no mesmo dia_referencia ⇒ segunda requisição 400."""
+    """Duas sessoes unicas no mesmo dia_referencia => segunda requisicao 400."""
     body = {
         "metodo": "sessao_unica",
         "nivel_foco": 4,
@@ -93,7 +93,7 @@ def test_sessao_unica_segundo_registro_mesmo_dia_400(client):
 
 
 def test_diagnostico_vazio(client):
-    """Sem registros no banco ⇒ 200 e total_sessoes=0 no JSON."""
+    """Sem registros no banco => 200 e total_sessoes=0 no JSON."""
     r = client.get("/diagnostico-produtividade")
     assert r.status_code == 200
     assert r.json()["total_sessoes"] == 0
@@ -119,13 +119,13 @@ def test_diagnostico_filtra_por_mes(client):
 
 
 def test_delete_registro_inexistente_404(client):
-    """DELETE por id que não existe ⇒ 404."""
+    """DELETE por id que nao existe => 404."""
     r = client.delete("/registros/99999")
     assert r.status_code == 404
 
 
 def test_delete_registro_ok(client):
-    """Apagar existente ⇒ 200; repetir ⇒ 404."""
+    """Apagar existente => 200; repetir => 404."""
     client.post("/pomodoro/plano", params={"dia_referencia": DIA}, json={"total_sessoes": 1})
     rid = client.post(
         "/registro-foco",
@@ -141,7 +141,7 @@ def test_delete_registro_ok(client):
 
 
 def test_clear_all_limite_diagnostico_e_plano(client):
-    """DELETE /registros zera métricas e remove plano Pomodoro do mesmo dia (GET plano → 404)."""
+    """DELETE /registros zera metricas e remove plano Pomodoro do mesmo dia (GET plano -> 404)."""
     client.post("/pomodoro/plano", params={"dia_referencia": DIA}, json={"total_sessoes": 1})
     client.post(
         "/registro-foco",

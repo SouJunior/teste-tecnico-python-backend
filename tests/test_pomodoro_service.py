@@ -1,7 +1,7 @@
 """
 Testes unitários de pomodoro_service (sem HTTP).
 
-Cobrem peso por duração, nota foco×2, penalidades de pausa/duração e sessão inválida.
+Cobrem peso por duracao, nota foco x 2, penalidades de pausa/duracao e sessao invalida.
 """
 
 import pytest
@@ -26,7 +26,7 @@ def test_pomodoro_sessao_invalida_menos_20min():
 
 
 def test_pomodoro_foco_vezes_dois_pausa_ok():
-    """35 min ⇒ peso 2; foco 4 ⇒ nota 8; pausa 10 min sem penalidade."""
+    """35 min => peso 2; foco 4 => nota 8; pausa 10 min sem penalidade."""
     dados = PomodoroCreate(
         metodo="pomodoro",
         nivel_foco=4,
@@ -41,7 +41,7 @@ def test_pomodoro_foco_vezes_dois_pausa_ok():
 
 
 def test_pomodoro_pausa_curta_penalidade():
-    """Pausa < 5 min aplica −25% sobre foco×2 (8 × 0,75 = 6)."""
+    """Pausa < 5 min aplica -25% sobre foco x 2 (8 x 0,75 = 6)."""
     dados = PomodoroCreate(
         metodo="pomodoro",
         nivel_foco=4,
@@ -69,7 +69,7 @@ def test_pomodoro_sem_pausa_registrada():
 
 
 def test_pomodoro_sessao_longa_acima_45min():
-    """Bloco >45 min: válido, peso 1, −20% na nota + aviso de fadiga."""
+    """Bloco >45 min: valido, peso 1, -20% na nota + aviso de fadiga."""
     dados = PomodoroCreate(
         metodo="pomodoro",
         nivel_foco=5,
@@ -85,7 +85,7 @@ def test_pomodoro_sessao_longa_acima_45min():
 
 
 def test_pomodoro_pausa_longa_penalidade():
-    """Pausa > 15 min aplica −40% (8 × 0,6 = 4,8)."""
+    """Pausa > 15 min aplica -40% (8 x 0,6 = 4,8)."""
     dados = PomodoroCreate(
         metodo="pomodoro",
         nivel_foco=4,

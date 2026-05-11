@@ -1,7 +1,7 @@
 """
 Testes do agregado de diagnóstico.
 
-`_resumo_pomodoro` é interno, mas permite validar a média Σ(nota×peso)/Σ(pesos)
+`_resumo_pomodoro` é interno, mas permite validar a média Σ(nota x peso)/Σ(pesos)
 sem HTTP. Um teste chama `gerar_diagnostico` com SQLite (fixture `isolated_database`).
 """
 
@@ -11,7 +11,7 @@ from app.storage import database
 
 
 def test_resumo_pomodoro_media_ponderada():
-    """Mesmo dia, 3 blocos válidos ⇒ total_sessões=1; média ponderada (8×2 + 7,5×3 + 10×3)/8."""
+    """Mesmo dia, 3 blocos validos => total_sessoes=1; media ponderada (8x2 + 7,5x3 + 10x3)/8."""
     registros = [
         {
             "metodo": "pomodoro",

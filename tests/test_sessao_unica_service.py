@@ -11,7 +11,7 @@ from app.services import sessao_unica_service
 
 
 def test_sessao_unica_base_meta_cumprida_total():
-    """Tempo ≥ meta com foco 5 e ritmo de pausa ok ⇒ nota máxima (10)."""
+    """Tempo >= meta com foco 5 e ritmo de pausa ok => nota maxima (10)."""
     dados = SessaoUnicaCreate(
         metodo="sessao_unica",
         nivel_foco=5,
@@ -27,7 +27,7 @@ def test_sessao_unica_base_meta_cumprida_total():
 
 
 def test_sessao_unica_meta_parcial():
-    """Metade do tempo combinado ⇒ metade da nota máxima (4×2×0,5 = 4)."""
+    """Metade do tempo combinado => metade da nota maxima (4x2x0,5 = 4)."""
     dados = SessaoUnicaCreate(
         metodo="sessao_unica",
         nivel_foco=4,
@@ -56,7 +56,7 @@ def test_sessao_unica_acima_da_meta_nao_ganha_bonus():
 
 
 def test_sessao_unica_penalidade_pausas_forte():
-    """2 h de trabalho ⇒ ~2 pausas ideais; 0 pausas ⇒ desvio grande ⇒ −70% na nota após tempo×foco."""
+    """2 h de trabalho => ~2 pausas ideais; 0 pausas => desvio grande => -70% na nota apos tempo x foco."""
     dados = SessaoUnicaCreate(
         metodo="sessao_unica",
         nivel_foco=5,
