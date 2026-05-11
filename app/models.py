@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Integer, String, DateTime, Float
+from datetime import datetime, timezone
 from .database import Base
 
 class RegistroFoco(Base):
@@ -13,7 +14,7 @@ class RegistroFoco(Base):
     
     # Campos extras 
     categoria = Column(String, default="Geral", index=True) #
-    data_registro = Column(DateTime.timezone.utc) 
+    data_registro = Column(DateTime, default=lambda: datetime.now(timezone.utc))
 
     def __repr__(self):
         return f"<RegistroFoco(id={self.id}, nivel={self.nivel_foco}, tempo={self.tempo_minutos}min)>"
