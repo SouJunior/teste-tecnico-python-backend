@@ -12,13 +12,13 @@ _ERRO_CONEXAO = (
 
 def chamar_api(metodo: str, rota: str, **kwargs):
     """
-    Faz uma requisição à API tratando ConnectionError de forma central.
-    Em caso de falha de conexão, mostra o erro no Streamlit e retorna None.
+    Faz uma requisição à API tratando falhas de rede/timeout de forma central.
+    Em caso de erro de requisição, mostra mensagem no Streamlit e retorna None.
     """
     try:
         return requests.request(metodo, f"{API_URL}{rota}", timeout=5, **kwargs)
-    except requests.exceptions.ConnectionError:
-        st.error(_ERRO_CONEXAO)
+    except requests.exceptions.RequestException as e:
+        st.error(f"{_ERRO_CONEXAO} ({type(e).__name__}: {e})")
         return None
 
 
@@ -425,8 +425,16 @@ with aba_diagnostico:
     if buscar:
         resp = chamar_api("GET", "/diagnostico-produtividade", params=params or None)
         if resp is not None:
-            st.session_state["diag_dados"] = resp.json()
-            st.session_state["diag_query"] = dict(params)
+            if resp.status_code == 200:
+                st.session_state["diag_dados"] = resp.json()
+                st.session_state["diag_query"] = dict(params)
+            else:
+                try:
+                    det = resp.json()
+                    msg = det.get("detail", resp.text) if isinstance(det, dict) else str(det)
+                except ValueError:
+                    msg = resp.text or ""
+                st.error(f"Diagnóstico indisponível (HTTP {resp.status_code}): {msg}")
 
     dados = st.session_state.get("diag_dados")
     if dados is None:
