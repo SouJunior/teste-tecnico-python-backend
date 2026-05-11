@@ -153,7 +153,10 @@ def obter_plano_hoje(
 ) -> PlanoPomodoroResponse:
     plano = database.obter_plano_pomodoro(dia)
     if not plano:
-        raise HTTPException(status_code=404, detail="Plano Pomodoro de hoje ainda não definido.")
+        raise HTTPException(
+            status_code=404,
+            detail=f"Plano Pomodoro para {dia} ainda não definido.",
+        )
     return _resposta_plano(plano["dia"], plano["total_sessoes"])
 
 
