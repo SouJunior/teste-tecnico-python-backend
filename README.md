@@ -10,6 +10,7 @@ Backend em **FastAPI** com **SQLite** para registrar sessões de foco (**Pomodor
 |-----------|-----------|
 | **[`docs/GUIA_AVALIADOR.md`](docs/GUIA_AVALIADOR.md)** | **Principal para avaliação:** como rodar, testar no Streamlit passo a passo, arquitetura e endpoints resumidos. |
 | [`docs/CONTRATO.md`](docs/CONTRATO.md) | Contrato da API: campos, exemplos JSON, erros e regras de negócio detalhadas. |
+| [`docs/USO_DE_IA_NO_DESAFIO.md`](docs/USO_DE_IA_NO_DESAFIO.md) | Transparência: uso de IA no desenvolvimento, revisão e testes; auditoria e autoria humana. |
 
 ---
 
