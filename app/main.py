@@ -44,7 +44,7 @@ def obter_diagnostico(db: Session = Depends(get_db)):
     # Lógica de Feedback
     if media_foco >= 4.5:
         feedback = "Incrível! Você está em estado de flow constante. Continue assim!"
-    elif media_foco >= 3.5:
+    elif media_foco > 3.0:
         feedback = "Você teve uma boa performance. Tente reduzir pequenas distrações."
     elif media_foco >= 2.5:
         feedback = "Produtividade mediana. Talvez pausas mais longas ajudem a recuperar o foco."
