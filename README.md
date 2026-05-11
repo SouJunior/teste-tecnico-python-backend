@@ -32,6 +32,16 @@ O projeto segue princípios de **Clean Code** e **Separação de Responsabilidad
 
 ---
 
+## 🤖 Uso de IA
+
+Conforme as regras do desafio, ferramentas de IA (Gemini) foram utilizada para:
+
+* Auxílio na correção de bugs de tipagem no SQLAlchemy.
+* Geração de templates básicos para o componente Angular.
+* Auxílio nas duvidas ao contruir o projeto.
+
+---
+
 ## 🔧 Como Rodar o Projeto
 
 ### 1. Backend (FastAPI)
@@ -54,3 +64,13 @@ pip install -r requirements.txt
 
 # Inicie o servidor
 uvicorn app.main:app --reload
+
+### 2. Frontend (Angular)
+# Entre na pasta do frontend
+cd front
+
+# Instale as dependências do Angular
+npm install
+
+# Inicie o servidor de desenvolvimento
+ng serve
