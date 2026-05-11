@@ -1,2 +1,28 @@
+# --- Python / Backend ---
 venv/
 .venv/
+env/
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.vscode/
+.idea/
+
+# Banco de dados local (opcional: remova se quiser que o avaliador receba o banco já com dados)
+*.db
+*.sqlite3
+
+# --- Angular / Frontend ---
+front/node_modules/
+front/.angular/
+front/dist/
+front/.vscode/
+
+# Logs e arquivos de sistema
+*.log
+.DS_Store
+Thumbs.db
+
+# --- Arquivos de ambiente ---
+.env

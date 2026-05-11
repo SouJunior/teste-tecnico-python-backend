@@ -1,0 +1,27 @@
+<div style="max-width: 500px; margin: 50px auto; font-family: sans-serif; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">
+  <h2> Foco & Performance</h2>
+
+  <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 30px;">
+    <label>Nível de Foco (1-5):</label>
+    <input type="number" [(ngModel)]="registro.nivel_foco" min="1" max="5">
+
+    <label>Tempo (minutos):</label>
+    <input type="number" [(ngModel)]="registro.tempo_minutos">
+
+    <label>Comentário:</label>
+    <textarea [(ngModel)]="registro.comentario"></textarea>
+
+    <button (click)="enviar()" style="background: #007bff; color: white; border: none; padding: 10px; cursor: pointer; border-radius: 4px;">
+      Salvar Sessão
+    </button>
+  </div>
+
+  <hr />
+
+  <div *ngIf="diagnostico" style="background: #f8f9fa; padding: 15px; border-radius: 4px; margin-top: 20px;">
+    <h3> Diagnóstico Atual</h3>
+    <p><strong>Média de Foco:</strong> {{ diagnostico.media_foco }}</p>
+    <p><strong>Tempo Total:</strong> {{ diagnostico.tempo_total_focado }} min</p>
+    <p style="font-style: italic; color: #555;">"{{ diagnostico.mensagem_feedback }}"</p>
+  </div>
+</div>
