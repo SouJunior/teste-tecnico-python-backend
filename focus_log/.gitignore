@@ -1,0 +1,26 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
+venv/
+.venv/
+env/
+ENV/
+
+# Database files
+*.db
+*.sqlite3
+focus_log.db
+test.db
+
+# Environment variables
+.env
+
+# Pytest cache
+.pytest_cache/
+
+# VSCode
+.vscode/
