@@ -9,6 +9,20 @@ from sqlalchemy import (
 )
 from .database import Base
 
+
+class StatusApp(Base):
+    """
+    Modelo da tabela `status_app` para gamificação.
+    Armazena a sequência de dias com registros.
+    """
+    __tablename__ = "status_app"
+
+    id = Column(Integer, primary_key=True)
+    sequencia_atual = Column(Integer, default=0)
+    sequencia_maxima = Column(Integer, default=0)
+    data_ultimo_registro = Column(DateTime, nullable=True)
+
+
 class CategoriaEnum(str, enum.Enum):
     coding = "coding"
     reuniao = "reuniao"

@@ -39,3 +39,18 @@ class DiagnosticoOut(BaseModel):
     pior_sessao: RegistroFocoOut
     distribuicao_categorias: Dict[str, int]
     feedback: str
+
+class StatusOut(BaseModel):
+    """
+    Schema para o status de gamificação (sequências).
+    """
+    sequencia_atual: int
+    sequencia_maxima: int
+    mensagem: str
+
+class AnaliseTagsOut(BaseModel):
+    """
+    Schema para a análise de tags.
+    """
+    tags_alto_foco: Dict[str, float]
+    tags_baixo_foco: Dict[str, float]

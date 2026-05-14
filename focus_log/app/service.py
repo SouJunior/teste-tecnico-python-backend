@@ -1,6 +1,95 @@
 from sqlalchemy.orm import Session
 from . import repository, schemas
-from typing import Optional
+from typing import Optional, Dict, List
+from datetime import date, timedelta
+from collections import defaultdict
+
+def atualizar_status_gamificacao(db: Session):
+    """
+    Atualiza a sequência de dias de foco (streak).
+
+    Args:
+        db (Session): A sessão do banco de dados.
+    """
+    status_app = repository.get_status_app(db)
+    if not status_app:
+        status_app = repository.create_status_app(db)
+
+    hoje = date.today()
+    data_ultimo_registro = status_app.data_ultimo_registro.date() if status_app.data_ultimo_registro else None
+
+    if data_ultimo_registro == hoje:
+        return # Já atualizado hoje
+
+    if data_ultimo_registro == hoje - timedelta(days=1):
+        status_app.sequencia_atual += 1
+    else:
+        status_app.sequencia_atual = 1 # Reinicia a sequência
+
+    if status_app.sequencia_atual > status_app.sequencia_maxima:
+        status_app.sequencia_maxima = status_app.sequencia_atual
+    
+    status_app.data_ultimo_registro = hoje
+    db.commit()
+
+def obter_status_app(db: Session) -> schemas.StatusOut:
+    """
+    Obtém o status de gamificação formatado para o schema de saída.
+
+    Args:
+        db (Session): A sessão do banco de dados.
+
+    Returns:
+        schemas.StatusOut: O status de gamificação.
+    """
+    status_app = repository.get_status_app(db)
+    if not status_app:
+        status_app = repository.create_status_app(db)
+
+    mensagem = "Você ainda não registrou nenhum foco. Comece hoje!"
+    if status_app.sequencia_atual > 0:
+        mensagem = f"Você está em uma sequência de {status_app.sequencia_atual} dias! 🔥"
+    if status_app.sequencia_atual > 5:
+        mensagem = f"Sequência de {status_app.sequencia_atual} dias é incrível! Continue assim! 🚀"
+
+    return schemas.StatusOut(
+        sequencia_atual=status_app.sequencia_atual,
+        sequencia_maxima=status_app.sequencia_maxima,
+        mensagem=mensagem
+    )
+
+def analisar_tags(db: Session) -> schemas.AnaliseTagsOut:
+    """
+    Analisa as tags e as correlaciona com o nível de foco.
+
+    Args:
+        db (Session): A sessão do banco de dados.
+
+    Returns:
+        schemas.AnaliseTagsOut: A análise de tags.
+    """
+    registros = repository.get_all_registros_foco(db)
+    if not registros:
+        return schemas.AnaliseTagsOut(tags_alto_foco={}, tags_baixo_foco={})
+
+    tags_foco: Dict[str, List[int]] = defaultdict(list)
+
+    for r in registros:
+        if r.tags:
+            for tag in r.tags.split(','):
+                tag_limpa = tag.strip().lower()
+                if tag_limpa:
+                    tags_foco[tag_limpa].append(r.nivel_foco)
+
+    media_tags = {tag: sum(niveis) / len(niveis) for tag, niveis in tags_foco.items()}
+
+    tags_alto_foco = {tag: round(media, 2) for tag, media in sorted(media_tags.items(), key=lambda item: item[1], reverse=True) if media >= 3.5}
+    tags_baixo_foco = {tag: round(media, 2) for tag, media in sorted(media_tags.items(), key=lambda item: item[1]) if media < 3.0}
+
+    return schemas.AnaliseTagsOut(
+        tags_alto_foco=dict(list(tags_alto_foco.items())[:5]), # Limita a 5
+        tags_baixo_foco=dict(list(tags_baixo_foco.items())[:5]) # Limita a 5
+    )
 
 def gerar_feedback(media: float, total_minutos: int) -> str:
     """

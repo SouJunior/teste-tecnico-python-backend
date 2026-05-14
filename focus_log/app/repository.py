@@ -108,3 +108,33 @@ def get_distribuicao_categorias(db: Session) -> dict:
         .all()
     )
     return {categoria.name: count for categoria, count in dist}
+
+
+def get_status_app(db: Session) -> Optional[models.StatusApp]:
+    """
+    Obtém o status da aplicação (gamificação).
+
+    Args:
+        db (Session): A sessão do banco de dados.
+
+    Returns:
+        Optional[models.StatusApp]: O status da aplicação ou None.
+    """
+    return db.query(models.StatusApp).first()
+
+
+def create_status_app(db: Session) -> models.StatusApp:
+    """
+    Cria o registro inicial de status da aplicação.
+
+    Args:
+        db (Session): A sessão do banco de dados.
+
+    Returns:
+        models.StatusApp: O novo status da aplicação.
+    """
+    db_status = models.StatusApp(sequencia_atual=0, sequencia_maxima=0)
+    db.add(db_status)
+    db.commit()
+    db.refresh(db_status)
+    return db_status
