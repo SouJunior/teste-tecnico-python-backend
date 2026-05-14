@@ -1,50 +1,76 @@
-# 🚀 Desafio Técnico: API de Foco e Produtividade
+# 🧠 Log de Performance & Foco
 
-O objetivo deste teste é criar o backend de um **"Log de Performance"**. Em vez de apenas registrar tarefas, queremos entender o **estado de fluxo** do desenvolvedor ou estudante durante suas atividades.
-
-## 📅 Regras de Entrega
-
-* Prazo: O projeto deve ser entregue até a próxima segunda-feira.
-* Uso de IA: O uso de ferramentas de Inteligência Artificial (ChatGPT, GitHub Copilot, etc.) é permitido.
-* Transparência: Caso utilize IA, você deve commitar os artefatos gerados junto ao repositório. Queremos entender como você utiliza essas ferramentas para acelerar seu fluxo de trabalho.
-* Faça o **fork desse projeto** e me avise quando terminar o [wouerner](https://www.linkedin.com/in/wouerner/) no linkedin. (necessario para pode acompanhar pelo github quem participou)
-
-## 📝 O Contexto
-Muitas vezes trabalhamos muito, mas produzimos pouco. Você deve construir uma API simples que ajude o usuário a registrar seu nível de produtividade e, ao final, entregue um **diagnóstico inteligente** de como foi o seu período de trabalho.
-
-## 🛠 Requisitos Técnicos
-*   **Linguagem:** Python 3.x.
-*   **Framework:** À sua escolha (FastAPI, Flask, Django, etc).
-*   **Armazenamento:** Pode ser em memória (dicionários/listas) ou SQLite para simplicidade.
-*   **Diferencial:** Código limpo, bem comentado e presença de um `README.md` explicando como rodar o projeto.
+Este é um projeto Fullstack desenvolvido para o **Desafio Técnico: API de Foco e Produtividade**. A aplicação permite que desenvolvedores e estudantes registrem suas sessões de trabalho, acompanhem o nível de estado de fluxo (*flow*) e recebam um diagnóstico inteligente sobre sua produtividade.
 
 ---
 
-## 🛣 Os Endpoints
+## 🚀 Tecnologias Utilizadas
 
-### 1. `POST /registro-foco`
-O usuário deve enviar os dados de um bloco de trabalho recém-encerrado.
+### Backend
+* **Python 3.12+**
+* **FastAPI**: Framework web de alta performance.
+* **SQLAlchemy**: ORM para mapeamento e manipulação do banco de dados.
+* **SQLite**: Banco de dados relacional leve para persistência de dados.
+* **Pydantic**: Validação de dados e schemas.
 
-**Campos obrigatórios:**
-*   `nivel_foco`: Um valor inteiro de **1 a 5** (onde 1 é "muito distraído" e 5 é "estado de flow").
-*   `tempo_minutos`: Um inteiro representando quanto tempo durou a sessão.
-*   `comentario`: Uma string descrevendo o que foi feito ou o que causou distração.
-
-> **💡 Dica de Criatividade:** Sinta-se à vontade para adicionar campos extras, como `categoria` (coding, reunião, estudo), `data` ou `tags`.
-
-### 2. `GET /diagnostico-produtividade`
-Este endpoint deve retornar um resumo inteligente baseado em todos os registros salvos.
-
-**O que deve retornar (JSON):**
-*   **Média do nível de foco:** A média aritmética de todos os registros.
-*   **Tempo total focado:** A soma de todos os minutos registrados.
-*   **Lógica Criativa (Diferencial):** Uma "mensagem de feedback" automática baseada nos dados analisados.
-    *   *Exemplo:* Se a média de foco for `< 3`, sugerir "Pausas mais longas e menos notificações". Se for `> 4`, "Você está em uma maratona produtiva de alto nível!".
+### Frontend
+* **Angular 21.2**: Framework para construção da interface web.
+* **Bootstrap**: Para um design responsivo e limpo.
+* **HttpClient**: Para comunicação assíncrona com a API.
 
 ---
 
-## 📊 O que será avaliado
-1.  **Organização do Código:** Estrutura de pastas e legibilidade.
-2.  **Manipulação de Dados:** Como você lida com tipos, cálculos e persistência.
-3.  **Tratamento de Erros:** Respostas adequadas para entradas inválidas (ex: nível de foco fora do range 1-5).
-4.  **Criatividade:** Pequenos detalhes que tornam a API mais útil para o usuário final.
+## 🛠️ Arquitetura do Projeto
+
+O projeto segue princípios de **Clean Code** e **Separação de Responsabilidades (SOC)**:
+
+* `app/main.py`: Ponto de entrada da API e definição das rotas.
+* `app/service.py`: Camada de serviço contendo a lógica de negócio e cálculos de diagnóstico.
+* `app/models.py`: Definição das tabelas do banco de dados.
+* `app/schemas.py`: Validação de entrada e saída de dados com Pydantic.
+* `app/database.py`: Configuração da conexão com o SQLite.
+
+---
+
+## 🤖 Uso de IA
+
+Conforme as regras do desafio, ferramentas de IA (Gemini) foram utilizada para:
+
+* Auxílio na correção de bugs de tipagem no SQLAlchemy.
+* Geração de templates básicos para o componente Angular.
+* Auxílio nas duvidas ao contruir o projeto.
+
+---
+
+## 🔧 Como Rodar o Projeto
+
+### 1. Backend (FastAPI)
+
+Certifique-se de ter o Python instalado. Recomenda-se o uso de um ambiente virtual (`venv`).
+
+```bash
+# Entre na pasta raiz do projeto
+cd teste-tecnico-python-backend
+
+# Crie e ative o ambiente virtual
+python -m venv venv
+# No Windows:
+.\venv\Scripts\activate
+# No Linux/Mac:
+source venv/bin/activate
+
+# Instale as dependências
+pip install -r requirements.txt
+
+# Inicie o servidor
+uvicorn app.main:app --reload
+
+### 2. Frontend (Angular)
+# Entre na pasta do frontend
+cd front
+
+# Instale as dependências do Angular
+npm install
+
+# Inicie o servidor de desenvolvimento
+ng serve
