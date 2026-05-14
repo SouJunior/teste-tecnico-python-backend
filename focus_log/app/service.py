@@ -46,17 +46,23 @@ def obter_status_app(db: Session) -> schemas.StatusOut:
     if not status_app:
         status_app = repository.create_status_app(db)
 
-    mensagem = "Você ainda não registrou nenhum foco. Comece hoje!"
-    if status_app.sequencia_atual > 0:
-        mensagem = f"Você está em uma sequência de {status_app.sequencia_atual} dias! 🔥"
-    if status_app.sequencia_atual > 5:
-        mensagem = f"Sequência de {status_app.sequencia_atual} dias é incrível! Continue assim! 🚀"
+    mensagem = "Você ainda não registrou nenhuma sessão de foco. Registre a primeira para começar sua sequência!"
+    if status_app.sequencia_atual == 1:
+        mensagem = f"Parabéns por iniciar sua sequência! Você está há {status_app.sequencia_atual} dia focado. Continue amanhã! 🔥"
+    elif status_app.sequencia_atual > 1:
+        mensagem = f"Incrível! Você mantém uma sequência de {status_app.sequencia_atual} dias. Sua consistência é a chave para a produtividade. 🚀"
+    
+    # Mensagem especial se a sequência máxima foi batida
+    if status_app.sequencia_atual > 0 and status_app.sequencia_atual == status_app.sequencia_maxima:
+        mensagem += " E você acaba de bater seu recorde pessoal!"
+
 
     return schemas.StatusOut(
         sequencia_atual=status_app.sequencia_atual,
         sequencia_maxima=status_app.sequencia_maxima,
         mensagem=mensagem
     )
+
 
 def analisar_tags(db: Session) -> schemas.AnaliseTagsOut:
     """
@@ -93,7 +99,7 @@ def analisar_tags(db: Session) -> schemas.AnaliseTagsOut:
 
 def gerar_feedback(media: float, total_minutos: int) -> str:
     """
-    Gera uma mensagem de feedback baseada na performance.
+    Gera uma mensagem de feedback detalhada e didática baseada na performance.
 
     Args:
         media (float): A média do nível de foco.
@@ -103,18 +109,19 @@ def gerar_feedback(media: float, total_minutos: int) -> str:
         str: A mensagem de feedback.
     """
     if media < 2:
-        return "Muitas distrações. Tente Pomodoro e desligue notificações. 🔕"
+        return "Sua média de foco está muito baixa, indicando muitas distrações. Tente usar a técnica Pomodoro (25 min de foco, 5 de pausa) e desligue as notificações. 🔕"
     if media < 3:
-        return "Foco abaixo do ideal. Pausas mais longas podem ajudar. ☕"
+        return "Seu foco está abaixo do ideal. Isso pode ser sinal de cansaço. Pausas um pouco mais longas ou um café podem ajudar a recarregar. ☕"
     if media < 4 and total_minutos < 60:
-        return "Sessões curtas e foco mediano. Tente blocos de 25 min contínuos. ⏱️"
+        return "Você está fazendo sessões curtas com foco mediano. Para entrar em 'flow', tente criar blocos de tempo de pelo menos 25 minutos contínuos. ⏱️"
     if media < 4:
-        return "Progresso razoável! Identifique distrações e elimine. 🎯"
+        return "Seu progresso é razoável! O próximo passo é identificar as principais fontes de distração durante as sessões e tentar eliminá-las. 🎯"
     if media >= 4 and total_minutos >= 120:
-        return "Maratona produtiva de alto nível! 🚀"
+        return "Excelente! Você teve uma maratona produtiva de alto nível, mantendo o foco por um longo período. Continue assim! 🚀"
     if media >= 4:
-        return "Ótimo foco! Mais blocos e você terá um dia excelente. 💪"
-    return "Continue registrando para receber feedbacks mais precisos."
+        return "Ótimo trabalho mantendo um foco de alta qualidade! Se você conseguir encaixar mais blocos de tempo como este, seu dia será extremamente produtivo. 💪"
+    return "Continue registrando suas sessões para receber feedbacks cada vez mais precisos e acompanhar sua evolução."
+
 
 def formatar_tempo(minutos: int) -> str:
     """
