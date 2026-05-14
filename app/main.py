@@ -23,7 +23,7 @@ app.add_middleware(
 
 @app.post("/registro-foco", response_model=schemas.RegistroFocoResponse, status_code=status.HTTP_201_CREATED)
 def registrar_foco(item: schemas.RegistroFocoCreate, db: Session = Depends(get_db)):
-    novo_log = models.RegistroFoco(**item.dict())
+    novo_log = models.RegistroFoco(**item.model_dump())
     db.add(novo_log)
     db.commit()
     db.refresh(novo_log)
