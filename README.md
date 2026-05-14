@@ -14,7 +14,7 @@ Este é um projeto Fullstack desenvolvido para o **Desafio Técnico: API de Foco
 * **Pydantic**: Validação de dados e schemas.
 
 ### Frontend
-* **Angular 18**: Framework para construção da interface web.
+* **Angular 21.2**: Framework para construção da interface web.
 * **Bootstrap**: Para um design responsivo e limpo.
 * **HttpClient**: Para comunicação assíncrona com a API.
 
